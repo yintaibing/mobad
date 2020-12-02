@@ -87,17 +87,22 @@ public class AdPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler
                 break;
 
             case "showRewardVideoAd":
-                callMethod(call.argument("_channelId"), s -> showRewardVideoAd(mActivity, call.argument("unitId"), s));
+                callMethod(call.argument("_channelId"), s -> showRewardVideoAd(getActivity(), call.argument("unitId"), s));
                 break;
 
             case "showInterstitialAd":
-                callMethod(call.argument("_channelId"), s -> showInterstitialAd(mActivity, call.argument("unitId"), s));
+                callMethod(call.argument("_channelId"), s -> showInterstitialAd(getActivity(), call.argument("unitId"), s));
                 break;
 
             default:
                 result.notImplemented();
                 break;
         }
+    }
+
+    private Activity getActivity() {
+        if (mActivity != null) return mActivity;
+        return mApp.getCurrentActivity();
     }
 
     private void callMethod(Integer channelId, final Consumer<EventChannel.EventSink> consumer) {
